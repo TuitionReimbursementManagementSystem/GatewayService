@@ -63,3 +63,26 @@ spring:
                   maxBackoff: 50ms
                   factor: 2
                   basedOnPreviousValue: false
+
+        - id: form-service
+          uri: lb://form-service
+          predicates:
+            - Path=/forms/**
+          # Configure the CircuitBreaker class from resilience4j:
+          filters:
+            # Checks the JWT for every request sent to this service
+            - name: CircuitBreaker
+              args:
+                name: fallbackController
+                fallbackUri: forward:/cache/forms
+            # Configure exponential backoff:
+            - name: Retry
+              args:
+                retries: 3
+                statuses: BAD_GATEWAY
+                methods: GET
+                backoff:
+                  firstBackoff: 10ms
+                  maxBackoff: 50ms
+                  factor: 2
+                  basedOnPreviousValue: false
