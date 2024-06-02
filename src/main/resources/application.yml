@@ -44,7 +44,7 @@ spring:
           # comes packaged with the Eureka server to distribute requests across our user-service instances:
           uri: lb://user-service
           predicates:
-            - Path=/users/**
+            - Path=/users/**, /departments/**
           # Configure the CircuitBreaker class from resilience4j:
           filters:
             # Checks the JWT for every request sent to this service
