@@ -23,4 +23,18 @@ public class FallbackController {
         return Mono.just(ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
                 .body("Form service is currently unavailable. Please try again later."));
     }
+
+    // Inbox service fallback:
+    @RequestMapping("/inboxes")
+    public Mono<ResponseEntity<String>> inboxesFallback() {
+        return Mono.just(ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
+                .body("Inbox service is currently unavailable. Please try again later."));
+    }
+
+    // Authorization service fallback:
+    @RequestMapping("/authorizations")
+    public Mono<ResponseEntity<String>> authorizationFallback() {
+        return Mono.just(ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
+                .body("Authorization service is currently unavailable. Please try again later."));
+    }
 }

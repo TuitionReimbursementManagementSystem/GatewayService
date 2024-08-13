@@ -88,3 +88,49 @@ spring:
                   maxBackoff: 50ms
                   factor: 2
                   basedOnPreviousValue: false
+
+        - id: inbox-service
+          uri: lb://inbox-service
+          predicates:
+            - Path=/inboxes/**
+          # Configure the CircuitBreaker class from resilience4j:
+          filters:
+            # Checks the JWT for every request sent to this service
+            - name: CircuitBreaker
+              args:
+                name: fallbackController
+                fallbackUri: forward:/cache/inboxes
+            # Configure exponential backoff:
+            - name: Retry
+              args:
+                retries: 3
+                statuses: BAD_GATEWAY
+                methods: GET
+                backoff:
+                  firstBackoff: 10ms
+                  maxBackoff: 50ms
+                  factor: 2
+                  basedOnPreviousValue: false
+
+        - id: authentication-service
+          uri: lb://authentication-service
+          predicates:
+            - Path=/authorizations/**
+          # Configure the CircuitBreaker class from resilience4j:
+          filters:
+            # Checks the JWT for every request sent to this service
+            - name: CircuitBreaker
+              args:
+                name: fallbackController
+                fallbackUri: forward:/cache/authorizations
+            # Configure exponential backoff:
+            - name: Retry
+              args:
+                retries: 3
+                statuses: BAD_GATEWAY
+                methods: GET
+                backoff:
+                  firstBackoff: 10ms
+                  maxBackoff: 50ms
+                  factor: 2
+                  basedOnPreviousValue: false
