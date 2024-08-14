@@ -115,14 +115,14 @@ spring:
         - id: authentication-service
           uri: lb://authentication-service
           predicates:
-            - Path=/authorizations/**
+            - Path=/authentications/**
           # Configure the CircuitBreaker class from resilience4j:
           filters:
             # Checks the JWT for every request sent to this service
             - name: CircuitBreaker
               args:
                 name: fallbackController
-                fallbackUri: forward:/cache/authorizations
+                fallbackUri: forward:/cache/authentications
             # Configure exponential backoff:
             - name: Retry
               args:
