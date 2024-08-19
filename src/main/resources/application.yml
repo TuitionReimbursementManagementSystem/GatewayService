@@ -89,17 +89,17 @@ spring:
                   factor: 2
                   basedOnPreviousValue: false
 
-        - id: inbox-service
-          uri: lb://inbox-service
+        - id: message-service
+          uri: lb://message-service
           predicates:
-            - Path=/inboxes/**
+            - Path=/messages/**
           # Configure the CircuitBreaker class from resilience4j:
           filters:
             # Checks the JWT for every request sent to this service
             - name: CircuitBreaker
               args:
                 name: fallbackController
-                fallbackUri: forward:/cache/inboxes
+                fallbackUri: forward:/cache/messages
             # Configure exponential backoff:
             - name: Retry
               args:

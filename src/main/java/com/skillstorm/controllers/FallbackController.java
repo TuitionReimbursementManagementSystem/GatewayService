@@ -25,10 +25,10 @@ public class FallbackController {
     }
 
     // Inbox service fallback:
-    @RequestMapping("/inboxes")
-    public Mono<ResponseEntity<String>> inboxesFallback() {
+    @RequestMapping("/messages")
+    public Mono<ResponseEntity<String>> messagesFallback() {
         return Mono.just(ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
-                .body("Inbox service is currently unavailable. Please try again later."));
+                .body("Message service is currently unavailable. Please try again later."));
     }
 
     // Authorization service fallback:
