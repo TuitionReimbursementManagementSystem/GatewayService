@@ -92,7 +92,7 @@ spring:
         - id: message-service
           uri: lb://message-service
           predicates:
-            - Path=/messages/**
+            - Path=/messages/**, /kinesis/**
           # Configure the CircuitBreaker class from resilience4j:
           filters:
             # Checks the JWT for every request sent to this service

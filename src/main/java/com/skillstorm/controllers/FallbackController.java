@@ -31,6 +31,13 @@ public class FallbackController {
                 .body("Message service is currently unavailable. Please try again later."));
     }
 
+    // Inbox service fallback:
+    @RequestMapping("/kinesis")
+    public Mono<ResponseEntity<String>> kinesisFallback() {
+        return Mono.just(ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
+                .body("Message service is currently unavailable. Please try again later."));
+    }
+
     // Authorization service fallback:
     @RequestMapping("/authorizations")
     public Mono<ResponseEntity<String>> authorizationFallback() {
